@@ -2,12 +2,14 @@ class User {
   String? ID;
   String email;
   String username;
-  String? profilePictureUrl; // Can be null if user hasn't uploaded a PFP
+  String? profilePicture; // Can be null if the user hasn't uploaded a PFP
+  int friendCount;
 
   User({
     this.ID,
     required this.email,
     required this.username,
-    this.profilePictureUrl, // Optional
+    this.profilePicture,
+    this.friendCount = 0,
   });
 }

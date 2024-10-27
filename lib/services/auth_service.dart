@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mad/pages/homepage.dart';
-import 'package:mad/services/firebase_services.dart';
+import 'package:mad/services/users_collection.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -12,13 +12,12 @@ class AuthService {
     required String email,
     required String password,
     required String username,
-    required BuildContext context, // Add context as a parameter
+    required BuildContext context,
   }) async {
     try {
       // Step 1: Check if the username already exists
       print("Checking if username is taken...");
-      bool isUsernameTaken = await _usersCollection.isUsernameInUsersCollection(
-          username: username);
+      bool isUsernameTaken = await _usersCollection.isUsernameInUsersCollection(username: username);
       if (isUsernameTaken) {
         Fluttertoast.showToast(
           msg: 'Username already taken, please choose another one.',
@@ -31,17 +30,14 @@ class AuthService {
 
       // Step 2: Create a new user with Firebase Authentication
       print("Creating user with Firebase Authentication...");
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        // Use createUserWithEmailAndPassword for sign-up
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       print("User created with Firebase Authentication.");
 
       // Step 3: Set default profile picture
-      String defaultProfilePicture =
-          'assets/avatar.png'; // Path to default profile picture
+      String defaultProfilePicture = 'assets/avatar.png'; // Path to default profile picture
 
       // Step 4: Save user info to Firestore with default profile picture
       String userId = userCredential.user!.uid;
@@ -50,20 +46,19 @@ class AuthService {
         userId: userId,
         userEmail: email,
         userName: username,
-        profilePicture:
-            defaultProfilePicture, // Use default profile picture path
+        profilePicture: defaultProfilePicture,
+        friendCount: 0, // Initialize friend count to 0
       );
       print("User info added to Firestore.");
 
       // Step 5: Show success toast and navigate to HomePage
-      Fluttertoast.showToast(
-          msg: 'Signup successful!', toastLength: Toast.LENGTH_SHORT);
+      Fluttertoast.showToast(msg: 'Signup successful!', toastLength: Toast.LENGTH_SHORT);
       print("Signup successful toast displayed.");
 
       // Step 6: Navigate to HomePage
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => HomePage()),
-        (Route<dynamic> route) => false, // Remove all previous routes
+            (Route<dynamic> route) => false, // Remove all previous routes
       );
       print("Navigating to HomePage.");
     } on FirebaseAuthException catch (e) {
@@ -74,13 +69,11 @@ class AuthService {
       print("FirebaseAuthException: $e");
     } catch (e) {
       print("Error during sign-up: $e");
-      Fluttertoast.showToast(
-          msg: 'An unexpected error occurred', toastLength: Toast.LENGTH_LONG);
+      Fluttertoast.showToast(msg: 'An unexpected error occurred', toastLength: Toast.LENGTH_LONG);
     }
   }
 
-
-  // // Method to update the profile picture
+// // Method to update the profile picture
   // Future<void> updateProfilePicture({
   //   required String userId,
   //   required File newProfilePicture,
@@ -146,4 +139,8 @@ class AuthService {
       print("Error during login: $e");
     }
   }
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
 }
+

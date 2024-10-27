@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mad/services/firebase_services.dart';
-import 'package:mad/themes/theme_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:mad/auth/login.dart';
 import 'package:mad/pages/searched_profile.dart';
+import 'package:mad/services/auth_service.dart';
+import 'package:mad/services/users_collection.dart';
+import 'package:mad/themes/theme_provider.dart';
+import 'package:mad/pages/notifications_page.dart';
+import 'package:provider/provider.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({Key? key}) : super(key: key);
@@ -13,35 +16,49 @@ class FeedPage extends StatefulWidget {
 
 class _FeedPageState extends State<FeedPage> {
   final TextEditingController _searchController = TextEditingController();
-  final UsersCollection _usersCollection = UsersCollection(); // Initialize UsersCollection
+  final UsersCollection _usersCollection = UsersCollection();
   List<Map<String, dynamic>> _searchResults = [];
   bool _showDropdown = false;
+  final AuthService _authService = AuthService();
 
-  // Method to handle user search
   Future<void> _searchUsers(String query) async {
-  if (query.isEmpty) {
-  setState(() {
-  _searchResults.clear();
-  _showDropdown = false;
-  });
-  return;
+    if (query.isEmpty) {
+      setState(() {
+        _searchResults.clear();
+        _showDropdown = false;
+      });
+      return;
+    }
+
+    print("Searching for users with query: $query");
+    List<Map<String, dynamic>> results = await _usersCollection
+        .searchByUsername(query);
+    print("Search results: $results");
+
+    setState(() {
+      _searchResults = results;
+      _showDropdown = _searchResults.isNotEmpty;
+    });
   }
-
-  // Call the searchByUsername method from UsersCollection
-  List<Map<String, dynamic>> results = await _usersCollection.searchByUsername(query);
-
-  setState(() {
-  _searchResults = results; // Store the results
-  _showDropdown = _searchResults.isNotEmpty; // Show dropdown if there are results
-  });
-  }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Feed"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                  builder: (context) =>
+                  NotificationsPage(),
+                  ));
+            },
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -49,7 +66,10 @@ class _FeedPageState extends State<FeedPage> {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary, // Drawer header color
+                color: Theme
+                    .of(context)
+                    .colorScheme
+                    .primary,
               ),
               child: const Text(
                 'Menu',
@@ -58,17 +78,26 @@ class _FeedPageState extends State<FeedPage> {
             ),
             SwitchListTile(
               title: const Text("Toggle Theme"),
-              value: Theme.of(context).brightness == Brightness.dark,
+              value: Theme
+                  .of(context)
+                  .brightness == Brightness.dark,
               onChanged: (bool value) {
-                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+                Provider.of<ThemeProvider>(context, listen: false)
+                    .toggleTheme();
               },
               secondary: const Icon(Icons.brightness_6),
             ),
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
-              onTap: () {
-                // Handle logout
+              onTap: () async {
+                await _authService.signOut();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                      (Route<
+                      dynamic> route) => false, // Remove all previous routes
+                );
               },
             ),
           ],
@@ -78,7 +107,6 @@ class _FeedPageState extends State<FeedPage> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            // Search Bar
             TextField(
               controller: _searchController,
               decoration: InputDecoration(
@@ -90,7 +118,6 @@ class _FeedPageState extends State<FeedPage> {
               ),
               onChanged: (query) => _searchUsers(query),
             ),
-            // Dropdown for search results
             if (_showDropdown)
               Container(
                 margin: const EdgeInsets.only(top: 5),
@@ -107,7 +134,7 @@ class _FeedPageState extends State<FeedPage> {
                 ),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(), // Disable scrolling for dropdown
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: _searchResults.length,
                   itemBuilder: (context, index) {
                     final user = _searchResults[index];
@@ -115,31 +142,31 @@ class _FeedPageState extends State<FeedPage> {
                       leading: CircleAvatar(
                         backgroundImage: user['profilePicture'] != null
                             ? NetworkImage(user['profilePicture'])
-                            : const AssetImage('assets/avatar.png') as ImageProvider,
+                            : const AssetImage(
+                            'assets/avatar.png') as ImageProvider,
                       ),
                       title: Text(user['username']),
-                      trailing: const Icon(Icons.arrow_forward), // Arrow icon
+                      trailing: const Icon(Icons.arrow_forward),
                       onTap: () {
-                        if (user['id'] != null) { // Check if user ID is not null
+                        if (user['id'] != null) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SearchedProfile(userId: user['id']), // Pass user ID
+                              builder: (context) =>
+                                  SearchedProfile(userId: user['id']),
                             ),
                           );
                         } else {
-                          // Handle the case where user ID is null
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('User ID is not available')),
+                            const SnackBar(
+                                content: Text('User ID is not available')),
                           );
                         }
-
                       },
                     );
                   },
                 ),
               ),
-            // Center Message
             const Expanded(
               child: Center(
                 child: Text(
