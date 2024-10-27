@@ -1,4 +1,4 @@
-# mad
+# social-app
 
 A new Flutter project.
 
