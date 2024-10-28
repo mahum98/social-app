@@ -25,7 +25,7 @@ class NotificationsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _firestore
@@ -36,7 +36,7 @@ class NotificationsPage extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           final notifications = snapshot.data!.docs;
@@ -48,7 +48,7 @@ class NotificationsPage extends StatelessWidget {
               String notificationId = notificationData.id;
               String notificationType = notificationData['notificationType'];
               DateTime timestamp =
-              (notificationData['timestamp'] as Timestamp).toDate();
+                  (notificationData['timestamp'] as Timestamp).toDate();
 
               return ListTile(
                 title: Text(notificationType),
@@ -57,7 +57,7 @@ class NotificationsPage extends StatelessWidget {
                   icon: Icon(Icons.check),
                   onPressed: () async {
                     await updateNotificationStatus(notificationId);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Notification marked as read'),
                     ));
                   },

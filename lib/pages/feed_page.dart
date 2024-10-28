@@ -8,7 +8,7 @@ import 'package:mad/pages/notifications_page.dart';
 import 'package:provider/provider.dart';
 
 class FeedPage extends StatefulWidget {
-  const FeedPage({Key? key}) : super(key: key);
+  const FeedPage({super.key});
 
   @override
   State<FeedPage> createState() => _FeedPageState();
@@ -31,8 +31,8 @@ class _FeedPageState extends State<FeedPage> {
     }
 
     print("Searching for users with query: $query");
-    List<Map<String, dynamic>> results = await _usersCollection
-        .searchByUsername(query);
+    List<Map<String, dynamic>> results =
+        await _usersCollection.searchByUsername(query);
     print("Search results: $results");
 
     setState(() {
@@ -53,8 +53,7 @@ class _FeedPageState extends State<FeedPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                  builder: (context) =>
-                  NotificationsPage(),
+                    builder: (context) => NotificationsPage(),
                   ));
             },
           ),
@@ -66,10 +65,7 @@ class _FeedPageState extends State<FeedPage> {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Theme
-                    .of(context)
-                    .colorScheme
-                    .primary,
+                color: Theme.of(context).colorScheme.primary,
               ),
               child: const Text(
                 'Menu',
@@ -78,9 +74,7 @@ class _FeedPageState extends State<FeedPage> {
             ),
             SwitchListTile(
               title: const Text("Toggle Theme"),
-              value: Theme
-                  .of(context)
-                  .brightness == Brightness.dark,
+              value: Theme.of(context).brightness == Brightness.dark,
               onChanged: (bool value) {
                 Provider.of<ThemeProvider>(context, listen: false)
                     .toggleTheme();
@@ -95,8 +89,7 @@ class _FeedPageState extends State<FeedPage> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),
-                      (Route<
-                      dynamic> route) => false, // Remove all previous routes
+                  (Route<dynamic> route) => false, // Remove all previous routes
                 );
               },
             ),
@@ -142,8 +135,8 @@ class _FeedPageState extends State<FeedPage> {
                       leading: CircleAvatar(
                         backgroundImage: user['profilePicture'] != null
                             ? NetworkImage(user['profilePicture'])
-                            : const AssetImage(
-                            'assets/avatar.png') as ImageProvider,
+                            : const AssetImage('assets/avatar.png')
+                                as ImageProvider,
                       ),
                       title: Text(user['username']),
                       trailing: const Icon(Icons.arrow_forward),

@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ProfilePage extends StatefulWidget {
   final String userId; // userId passed from FeedPage for profile display
 
-  const ProfilePage({Key? key, required this.userId}) : super(key: key);
+  const ProfilePage({super.key, required this.userId});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -28,7 +28,8 @@ class _ProfilePageState extends State<ProfilePage> {
   // Method to fetch user data from Firestore based on provided userId
   Future<void> _getUserData() async {
     try {
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(widget.userId).get();
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(widget.userId).get();
       if (userDoc.exists) {
         setState(() {
           username = userDoc.get('username') ?? 'Unknown';
@@ -70,7 +71,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     radius: MediaQuery.of(context).size.width * 0.20,
                     backgroundImage: selectedImage != null
                         ? FileImage(selectedImage!)
-                        : const AssetImage('assets/avatar.png') as ImageProvider,
+                        : const AssetImage('assets/avatar.png')
+                            as ImageProvider,
                   ),
                   IconButton(
                     icon: const Icon(Icons.edit, color: Colors.blue),
@@ -81,7 +83,8 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 20),
               Text(
                 username,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Text(

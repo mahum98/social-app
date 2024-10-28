@@ -33,9 +33,9 @@ class _HomePageState extends State<HomePage> {
 
   // List of pages for navigation, passing userId if available
   List<Widget> get _pages => [
-    FeedPage(),
-    ProfilePage(userId: userId ?? ''),
-  ];
+        const FeedPage(),
+        ProfilePage(userId: userId ?? ''),
+      ];
 
   // Method to handle bottom nav bar tap
   void _onItemTapped(int index) {

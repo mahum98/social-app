@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
 class SearchedProfile extends StatefulWidget {
   final String userId;
 
-  const SearchedProfile({Key? key, required this.userId}) : super(key: key);
+  const SearchedProfile({super.key, required this.userId});
 
   @override
   _SearchedProfileState createState() => _SearchedProfileState();
@@ -122,19 +122,20 @@ class _SearchedProfileState extends State<SearchedProfile> {
                   radius: 50,
                   backgroundImage: profilePictureUrl.startsWith('http')
                       ? NetworkImage(profilePictureUrl)
-                      : const AssetImage('assets/avatar.png')
-                  as ImageProvider,
+                      : const AssetImage('assets/avatar.png') as ImageProvider,
                 ),
                 const SizedBox(height: 16),
                 Text(
                   username,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 FutureBuilder<int>(
                   future: _getFriendsCount(),
                   builder: (context, friendsCountSnapshot) {
-                    if (friendsCountSnapshot.connectionState == ConnectionState.waiting) {
+                    if (friendsCountSnapshot.connectionState ==
+                        ConnectionState.waiting) {
                       return const Text('Loading friends count...');
                     }
                     return Text(
@@ -145,14 +146,18 @@ class _SearchedProfileState extends State<SearchedProfile> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: _isRequested ? null : _sendFriendRequest, // Disable if already requested
+                  onPressed: _isRequested
+                      ? null
+                      : _sendFriendRequest, // Disable if already requested
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (_isRequested) // Show check icon if requested
                         const Icon(Icons.check),
                       if (_isRequested) const SizedBox(width: 5),
-                      Text(_isRequested ? "Requested" : "Add Friend"), // Change text based on state
+                      Text(_isRequested
+                          ? "Requested"
+                          : "Add Friend"), // Change text based on state
                     ],
                   ),
                 ),
