@@ -4,7 +4,7 @@ ThemeData lightMode = ThemeData(
   colorScheme: ColorScheme.light(
     primary: Colors.purple[300]!, // AppBar and Bottom Navigation selected color
     secondary: Colors.purple[100]!, // Backgrounds for cards
-    surface: Colors.amber[100]!, // Calendar background
+    surface: Colors.deepPurple, // Calendar background
     background: Colors.white, // General background
     onPrimary: Colors.white, // Icons and text on primary
     onSecondary: Colors.black, // Text inside cards
