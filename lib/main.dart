@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       home: HomePage(),
       theme: Provider.of<ThemeProvider>(context).themeData,
       routes: {
-        '/home': (context) => HomePage(),
+        '/home': (context) => const HomePage(),
       },
     );
   }

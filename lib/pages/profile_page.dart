@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _getUserData() async {
     try {
       DocumentSnapshot userDoc =
-      await _firestore.collection('users').doc(widget.userId).get();
+          await _firestore.collection('users').doc(widget.userId).get();
       if (userDoc.exists) {
         setState(() {
           username = userDoc.get('username') ?? 'Unknown';
@@ -76,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       backgroundImage: selectedImage != null
                           ? FileImage(selectedImage!)
                           : const AssetImage('assets/avatar.png')
-                      as ImageProvider,
+                              as ImageProvider,
                     ),
                   ),
                   Positioned(
@@ -86,8 +86,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: _pickImage,
                       child: CircleAvatar(
                         radius: 20,
-                        backgroundColor:  Theme.of(context).colorScheme.primary,
-                        child: const Icon(Icons.edit, color: Colors.white, size: 16),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        child: const Icon(Icons.edit,
+                            color: Colors.white, size: 16),
                       ),
                     ),
                   ),
@@ -96,7 +97,8 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 20),
               Text(
                 username,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Text(
