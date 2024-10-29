@@ -152,7 +152,7 @@ class _SearchedProfileState extends State<SearchedProfile> {
                       if (_isRequested) // Show check icon if requested
                         const Icon(Icons.check),
                       if (_isRequested) const SizedBox(width: 5),
-                      Text(_isRequested ? "Requested" : "Add Friend"), // Change text based on state
+                      Text(_isRequested ? "Requested" : "Add Friend", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary ),), // Change text based on state
                     ],
                   ),
                 ),

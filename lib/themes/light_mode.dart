@@ -7,7 +7,7 @@ ThemeData lightMode = ThemeData(
     surface: Colors.deepPurple, // Calendar background
     background: Colors.white, // General background
     onPrimary: Colors.white, // Icons and text on primary
-    onSecondary: Colors.black, // Text inside cards
+    onSecondary: Colors.black87, // Text inside cards
     onSurface: Colors.black, // Text on Calendar, Event details
   ),
   scaffoldBackgroundColor: Colors.white,

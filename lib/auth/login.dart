@@ -74,7 +74,14 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: _login, // Ensure this function is defined
-                  child: Text("Login"),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 164.0), // Adjust padding
+                   // minimumSize: Size(150, 50), // Set minimum size (width, height)
+                  ),
+                  child: Text(
+                    "Login",
+                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                  ),
                 ),
                 SizedBox(height: 10),
                 TextButton(

@@ -111,7 +111,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: _signUp,
-                  child: Text("Sign Up"),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 164.0),
+                    // minimumSize: Size(150, 50),
+                  ),
+                  child: Text(
+                    "Create Account",
+                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                  ),
                 ),
                 SizedBox(height: 10),
                 TextButton(
@@ -129,7 +136,7 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Opacity(
               opacity: 0.4,
               child: Image.asset(
-                bottomImage, // Update with actual asset path
+                bottomImage,
                 width: 250,
               ),
             ),

@@ -48,7 +48,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex], // Display selected page
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar
+        (
         currentIndex: _selectedIndex,
         onTap: _onItemTapped, // Navigate to selected page
         items: const [
