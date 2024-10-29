@@ -13,7 +13,7 @@ ThemeData darkMode = ThemeData(
   scaffoldBackgroundColor: Colors.black,
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.purple[600]!,
-    elevation: 0,
+    elevation: 10,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Colors.black,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:mad/auth/fields.dart';
+import 'package:mad/auth/signup_page.dart';
 import 'package:mad/pages/homepage.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -13,6 +15,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? errorMessage;
+  final String signinTop = "assets/signin_top.png";
+  final String bottomImage = "assets/cloud.png";
 
   @override
   void dispose() {
@@ -69,42 +73,75 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Sign Up Page"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (errorMessage != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  errorMessage!,
-                  style: TextStyle(color: Colors.red),
-                ),
+      body: Stack(
+        children: [
+          // Background Images
+          Positioned(
+            top: 0,
+            left: 0,
+            child: Opacity(
+              opacity: 0.7,
+              child: Image.asset(
+                signinTop,
+                width: 500,
               ),
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(labelText: "Username"),
             ),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: "Email"),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 100),
+                Center(
+                  child: Text(
+                    "Create New Account",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 60),
+                UsernameField(usernameController: _usernameController),
+                SizedBox(height: 20),
+                EmailField(emailController: _emailController),
+                SizedBox(height: 20),
+                PasswordField(passwordController: _passwordController),
+                SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: _signUp,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 164.0),
+                    // minimumSize: Size(150, 50),
+                  ),
+                  child: Text(
+                    "Create Account",
+                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Already have an account? Login"),
+                ),
+              ],
             ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: "Password"),
-              obscureText: true,
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Opacity(
+              opacity: 0.4,
+              child: Image.asset(
+                bottomImage,
+                width: 250,
+              ),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _signUp,
-              child: Text("Sign Up"),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
