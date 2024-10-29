@@ -36,67 +36,83 @@ class _LoginPageState extends State<LoginPage> {
               opacity: 0.7, // Set the desired opacity value
               child: Image.asset(
                 loginTop, // Ensure this variable is defined
-                width: 300,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.8, // Dynamic width
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 100),
-                // Adjusted height to move Login text higher
-                Center(
-                  child: Text(
-                    "Welcome Back!",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    ),// Increased font size for visibility
-                  ),
-                ),
-                SizedBox(height: 10),
-                Center(
-                  child: Text(
-                    "Login to your account",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),// Increased font size for visibility
-                  ),
-                ),
-                SizedBox(height: 80),
-                // Spacing between title and input fields
-                EmailField(emailController: _emailController),
-                SizedBox(height: 20),
-                PasswordField(passwordController: _passwordController),
-                SizedBox(height: 40),
-                ElevatedButton(
-                  onPressed: _login, // Ensure this function is defined
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 164.0), // Adjust padding
-                   // minimumSize: Size(150, 50), // Set minimum size (width, height)
-                  ),
-                  child: Text(
-                    "Login",
-                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                  ),
-                ),
-                SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            SignUpPage(), // Ensure SignUpPage is defined
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.15), // Adjust height
+                  Center(
+                    child: Text(
+                      "Welcome Back!",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
                       ),
-                    );
-                  },
-                  child: Text("Don't have an account? Sign Up"),
-                ),
-              ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Center(
+                    child: Text(
+                      "Login to your account",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.1), // Adjust height
+                  EmailField(emailController: _emailController),
+                  SizedBox(height: 20),
+                  PasswordField(passwordController: _passwordController),
+                  SizedBox(height: 40),
+                  ElevatedButton(
+                    onPressed: _login, // Ensure this function is defined
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 24.0), // Adjust padding
+                      minimumSize: Size(MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.8, 50), // Dynamic width
+                    ),
+                    child: Text(
+                      "Login",
+                      style: TextStyle(color: Theme
+                          .of(context)
+                          .colorScheme
+                          .onPrimary),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              SignUpPage(), // Ensure SignUpPage is defined
+                        ),
+                      );
+                    },
+                    child: Text("Don't have an account? Sign Up"),
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned(
@@ -106,7 +122,10 @@ class _LoginPageState extends State<LoginPage> {
               opacity: 0.4, // Set the desired opacity value
               child: Image.asset(
                 bottomImage, // Ensure this variable is defined
-                width: 250,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.6, // Dynamic width
               ),
             ),
           ),

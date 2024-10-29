@@ -83,51 +83,68 @@ class _SignUpPageState extends State<SignUpPage> {
               opacity: 0.7,
               child: Image.asset(
                 signinTop,
-                width: 500,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.8, // Dynamic width
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 100),
-                Center(
-                  child: Text(
-                    "Create New Account",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.15), // Adjust height
+                  Center(
+                    child: Text(
+                      "Create New Account",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 60),
-                UsernameField(usernameController: _usernameController),
-                SizedBox(height: 20),
-                EmailField(emailController: _emailController),
-                SizedBox(height: 20),
-                PasswordField(passwordController: _passwordController),
-                SizedBox(height: 40),
-                ElevatedButton(
-                  onPressed: _signUp,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 164.0),
-                    // minimumSize: Size(150, 50),
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.1), // Dynamic spacing
+                  UsernameField(usernameController: _usernameController),
+                  SizedBox(height: 20),
+                  EmailField(emailController: _emailController),
+                  SizedBox(height: 20),
+                  PasswordField(passwordController: _passwordController),
+                  SizedBox(height: 40),
+                  ElevatedButton(
+                    onPressed: _signUp,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      minimumSize: Size(MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.8, 50), // Dynamic width
+                    ),
+                    child: Text(
+                      "Create Account",
+                      style: TextStyle(color: Theme
+                          .of(context)
+                          .colorScheme
+                          .onPrimary),
+                    ),
                   ),
-                  child: Text(
-                    "Create Account",
-                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                  SizedBox(height: 10),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("Already have an account? Login"),
                   ),
-                ),
-                SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("Already have an account? Login"),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Positioned(
@@ -137,7 +154,10 @@ class _SignUpPageState extends State<SignUpPage> {
               opacity: 0.4,
               child: Image.asset(
                 bottomImage,
-                width: 250,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.6, // Dynamic width
               ),
             ),
           ),
